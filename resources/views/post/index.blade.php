@@ -69,7 +69,7 @@
             用一下link可代替，且实际可用
             --}}
 
-
+            {{ $posts->links() }}
 
         </div><!-- /.blog-main -->
     </div>
