@@ -24,9 +24,13 @@ class PostController extends Controller
     }
 
     public function store(){
+        //验证
+        $this->validate(request(), [
+            'title'=>'required|string|max:100|min:5',
+            'content'=>'required|string|min:10',
+        ]);
 
-
-
+        //存储
         //1.
         /*$post = new Post();
         $post->title = request('title');
@@ -41,22 +45,43 @@ class PostController extends Controller
         //3.
         Post::create(request(['title', 'content']));
 
-        return redirect('post/index');
+        //跳转
+        return redirect('/posts');
 
-        dd(request()->all());
     }
 
     //修改
-    public function edit(){
+    public function edit(Post $post){
+        return view('post/edit', compact('post'));
 
     }
 
-    public function update(){
-
+    public function update(Post $post){
+    //验证
+        $this->validate(request(), [
+            'title'=>'required|string|max:100|min:5',
+            'content'=>'required|string|min:10',
+        ]);
+    //保存
+        $post->title = request('title');
+        $post->content = request('content');
+        $post->save();
+    //渲染
+        return redirect("/posts/{$post->id}");
     }
 
     //删除
-    public function delete(){
+    public function delete(Post $post){
+        //TODO:用户权限验证
 
+        $post->delete();
+        return redirect('/posts');
+    }
+
+
+    //上传图片
+    public function imageUpload(Request $request){
+        $path = $request->file('wangEditorH5File')->storePublicly(md5(time()));
+        return asset('storage/'.$path);
     }
 }
