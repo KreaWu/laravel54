@@ -29,7 +29,8 @@
                 <a class="right carousel-control" href="#carousel-example" data-slide="next">
                     <span class="glyphicon glyphicon-chevron-right"></span></a>
             </div>
-        </div>        <div style="height: 20px;">
+        </div>
+        <div style="height: 20px;">
         </div>
         <div>
             @foreach($posts as $post)
@@ -68,7 +69,7 @@
             用一下link可代替，且实际可用
             --}}
 
-            {{$posts->links()}}
+            {{ $posts->links() }}
 
         </div><!-- /.blog-main -->
     </div>
