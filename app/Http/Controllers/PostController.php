@@ -43,7 +43,10 @@ class PostController extends Controller
         Post::create($param);*/
 
         //3.
-        Post::create(request(['title', 'content']));
+        //获取用户id
+        $user_id = \Auth::id();//当前登录用户id
+        $param = array_merge(request(['title', 'content']), compact('user_id'));
+        Post::create($param);
 
         //跳转
         return redirect('/posts');
@@ -62,6 +65,9 @@ class PostController extends Controller
             'title'=>'required|string|max:100|min:5',
             'content'=>'required|string|min:10',
         ]);
+
+    //策略判断，判断是否有权限进行修改
+        $this->authorize('update',$post);
     //保存
         $post->title = request('title');
         $post->content = request('content');
@@ -72,8 +78,8 @@ class PostController extends Controller
 
     //删除
     public function delete(Post $post){
-        //TODO:用户权限验证
-
+        //用户权限验证
+        $this->authorize('delete',$post);
         $post->delete();
         return redirect('/posts');
     }
