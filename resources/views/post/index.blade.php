@@ -39,7 +39,7 @@
                     <p class="blog-post-meta">{{$post->created_at->toFormattedDateString()}}<a href="/user/{{$post->user->id}}">{{$post->user->name}}</a></p>
                     {{-- toFormattedDateString()   百度时间格式carbon--}}
                     {!! str_limit($post->content, 100, '...') !!}   {{--字符截断，超出100个用...表示;  {{}}:直接输出内容;  {!!  !!}:内容经过html化，正常显示    --}}
-                    <p class="blog-post-meta">赞 0  | 评论 {{ $post->comments_count }}</p>
+                    <p class="blog-post-meta">赞 {{ $post->zans_count }}  | 评论 {{ $post->comments_count }}</p>
                 </div>
             @endforeach
 

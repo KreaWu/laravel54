@@ -20,4 +20,14 @@ class Post extends Model
     public function comments(){
         return $this->hasMany('App\Comment')->orderBy('created_at', 'desc');
     }
+
+    //关联一个用户对一个文章只能一个赞(判断用户是否赞过,返回一个赞)
+    public function zan($user_id){
+        return $this->hasOne(\App\Zan::class)->where('user_id',$user_id);
+    }
+
+    //获取该文章的赞数量
+    public function zans(){
+        return $this->hasMany(\App\Zan::class);
+    }
 }
