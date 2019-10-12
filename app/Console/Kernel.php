@@ -13,7 +13,8 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        //挂载esinit
+        \App\Console\Commands\ESinit::class,
     ];
 
     /**
