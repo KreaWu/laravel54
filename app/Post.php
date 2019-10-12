@@ -38,6 +38,7 @@ class Post extends Model
     }
 
     //关联一个用户对一个文章只能一个赞(判断用户是否赞过,返回一个赞)
+
     public function zan($user_id){
         return $this->hasOne(\App\Zan::class)->where('user_id',$user_id);
     }
