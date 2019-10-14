@@ -4,6 +4,7 @@ namespace App;
 
 use App\Model;
 use Laravel\Scout\Searchable;
+use Illuminate\Database\Eloquent\Builder;
 
 //表posts
 class Post extends Model
@@ -46,5 +47,25 @@ class Post extends Model
     //获取该文章的赞数量
     public function zans(){
         return $this->hasMany(\App\Zan::class);
+    }
+
+
+
+    //使用scope
+    //找出属于某个作者的所有文章
+    public function scopeAuthorBy(Builder $query, $user_id){
+        return $query->where('user_id', $user_id);
+    }
+
+    //找出！！不！！属于某个专题的文章
+    //先将文章与topic关联
+    public function postTopics(){
+        return $this->hasMany(\App\PostTopic::class, 'post_id', 'id');
+    }
+    //再用scope
+    public function scopeTopicNotBy(Builder $query, $topic_id){
+        return $query->doesntHave('postTopics', 'and', function ($q) use($topic_id){
+            $q->where('topic_id', $topic_id);
+        });
     }
 }

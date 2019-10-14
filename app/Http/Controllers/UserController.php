@@ -46,7 +46,6 @@ class UserController extends Controller
             'error'=>0,
             'msg'=>'',
         ];
-
     }
 
     //取关
