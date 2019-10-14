@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Model;
+use Closure;
 use Laravel\Scout\Searchable;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -67,5 +68,19 @@ class Post extends Model
         return $query->doesntHave('postTopics', 'and', function ($q) use($topic_id){
             $q->where('topic_id', $topic_id);
         });
+    }
+
+
+    //由于后台修改了表的结构，增加了status，
+    //且前台读取数据也将会只读取状态为0和1的，
+    //为了不修改前台的任何代码，在此用全局scope的方式，
+    //使得前台每次读取posts中的数据时，都会经过下面的过滤
+
+    //即重写boot方法
+    protected static function boot(){
+        parent::boot();
+        static::addGlobalScope('avaiable', function(Builder $builder){//avaiable是该范围的名字,
+            $builder->whereIn('status',[0,1]);  //$builder对范围进行具体的定义
+    });
     }
 }
