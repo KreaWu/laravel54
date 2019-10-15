@@ -1,3 +1,9 @@
+$.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+});
+
 var editor = new wangEditor('content');
 if(editor.config){
     /*var E = window.wangEditor
@@ -19,7 +25,7 @@ $('.like-button').click(function (event) {
     var user_id = target.attr('like-user');
     //alert(user_id);
     if (current_like == 1){
-        alert(current_like);
+        //alert(current_like);
         //取消关注
 
         $.ajax({
