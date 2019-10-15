@@ -55,6 +55,24 @@ Route::group(['prefix'=>'admin'], function (){
             Route::post('/posts/{post}/status','\App\admin\Controllers\PostController@status');
         });
 
+        //专题权限
+        Route::group(['middleware'=>'can:topic'], function () {
+            //使用resource对专题的路由进行定义,使用resource可以直接定义增删改查一系列路由，当不需要增删改查中的某一些时，可以用only
+            //包括：index,create,store,show,edit,update,destory
+            Route::resource('topics', '\App\admin\Controllers\TopicController', ['only' => ['index', 'create', 'store', 'destory']]);
+
+            /*Route::get('/topics','\App\admin\Controllers\TopicController@index');
+            Route::get('/topics/create','\App\admin\Controllers\TopicController@create');
+            Route::post('/topics','\App\admin\Controllers\TopicController@store');
+            Route::get('/topics/{topic}/delete','\App\admin\Controllers\TopicController@destory');*/
+        });
+
+        Route::group(['middleware'=>'can:notice'], function () {
+            Route::resource('notices', '\App\admin\Controllers\NoticeController', ['only' => ['index', 'create', 'store']]);
+
+        });
+
+
 
     });
 });
